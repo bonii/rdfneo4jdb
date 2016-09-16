@@ -26,12 +26,14 @@
  **/
 package interfaces;
 
+import java.io.FileNotFoundException;
+
 /**
  * @author bonii
  *
  */
 public interface RdfLoader {
 
-	void load(String filePath) throws UnableToLoadException;
-	
+	void load(String filePath, String serverUrl, String userName, String password) throws FileHandlingException, FileNotFoundException;
+
 }
