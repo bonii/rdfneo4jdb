@@ -34,6 +34,10 @@ import java.io.FileNotFoundException;
  */
 public interface RdfLoader {
 
-	void load(String filePath, String serverUrl, String userName, String password) throws FileHandlingException, FileNotFoundException;
+	void importIntoDb(String filePath, String serverUrl, String userName, String password)
+			throws GraphDBException, FileNotFoundException;
+
+	void exportIntoFile(String filePath, String serverUrl, String userName, String password)
+			throws GraphDBException, FileNotFoundException;
 
 }

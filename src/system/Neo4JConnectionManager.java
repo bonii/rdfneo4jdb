@@ -22,13 +22,19 @@ public final class Neo4JConnectionManager {
 		if (serverUrl == null || userName == null || password == null) {
 			return null;
 		}
-		if (serverUrl.toLowerCase().startsWith("bolt://"))
+		if (serverUrl.toLowerCase().startsWith("bolt://")) {
 			if (myConnectedDrivers.containsKey(serverUrl + userName)) {
 				return myConnectedDrivers.get(serverUrl + userName);
 			}
-		Driver driver = GraphDatabase.driver("bolt://" + serverUrl, AuthTokens.basic(userName, password));
+		} else {
+			serverUrl = "bolt://" + serverUrl;
+		}
+		Driver driver = GraphDatabase.driver(serverUrl, AuthTokens.basic(userName, password));
 		if (driver != null) {
-			return myConnectedDrivers.putIfAbsent(serverUrl + userName, driver);
+			Driver result = myConnectedDrivers.putIfAbsent(serverUrl + userName, driver);
+			if (result == null) {
+				return driver;
+			}
 		}
 		return null;
 	}
