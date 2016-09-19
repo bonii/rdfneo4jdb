@@ -32,11 +32,11 @@ public final class Neo4JConnectionManager {
 		Driver driver = GraphDatabase.driver(serverUrl, AuthTokens.basic(userName, password));
 		if (driver != null) {
 			Driver result = myConnectedDrivers.putIfAbsent(serverUrl + userName, driver);
-			if (result == null) {
-				return driver;
+			if (result != null) {
+				driver = result;
 			}
 		}
-		return null;
+		return driver;
 	}
 
 	public static Session getSession(Driver someDriver) {

@@ -1,6 +1,7 @@
 package test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,8 +33,8 @@ public class RdfLoaderTest {
 	}
 
 	@Test
-	public void testLoadFileIntoDB() throws FileNotFoundException, GraphDBException {
-		dbInterpreter.importIntoDb("", "localhost", "neo4j", "neo4jnew");
+	public void testLoadFileIntoDB() throws FileNotFoundException, GraphDBException, IOException {
+		dbInterpreter.importFileIntoDb("data/dataset.txt", "localhost", "neo4j", "neo4jnew");
 	}
 
 }

@@ -27,6 +27,7 @@
 package interfaces;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author bonii
@@ -34,10 +35,10 @@ import java.io.FileNotFoundException;
  */
 public interface RdfLoader {
 
-	void importIntoDb(String filePath, String serverUrl, String userName, String password)
-			throws GraphDBException, FileNotFoundException;
+	void importFileIntoDb(String filePath, String serverUrl, String userName, String password)
+			throws GraphDBException, FileNotFoundException, IOException;
 
-	void exportIntoFile(String filePath, String serverUrl, String userName, String password)
+	void exportDbIntoFile(String filePath, String serverUrl, String userName, String password)
 			throws GraphDBException, FileNotFoundException;
 
 }

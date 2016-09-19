@@ -1,0 +1,45 @@
+#1. Semantic Web Course is a type of unit. If alternate sub-classing was the intent of the exercise then since semantic web course is a presentation unit which is a sub class of Unit and hence semantic web course must be a unit. 
+#2. Since hasResponsible is a sub-property of hasTeacher and since Carole is responsible for XML and Internet Programming, Carole must be a teacher of XML and internet programming.
+#3. I could not understand the question.
+
+### Sparql ###
+
+#1
+
+select ?a where { ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> . }
+
+#2
+
+ask where { ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+                    ?a <http://example.org/hasMidtermExamType> "Presentation" .
+                  }
+
+#3
+
+select ?a where { ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+                          ?a <http://example.org/hasMidtermGrade> ?b .
+                          ?a <http://example.org/hasFinalGrade> ?c .
+                          FILTER(.4* ?b + .6* ?c >= 12) .
+                        }
+
+#4
+
+select ?a ?b where { ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+                     OPTIONAL {
+                                ?a <http://example.org/hasPreRequisite> ?b .
+                              }
+                   }
+
+#5
+
+select ?a where {
+                  {
+                   ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+                   ?a <http://example.org/hasResponsible> <http://example.org/Alice> .
+                  }
+                    UNION
+                  {
+                   ?a <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+                   ?a <http://example.org/hasResponsible> <http://example.org/Carole> .
+                  }
+                }
