@@ -1,4 +1,4 @@
-package system;
+package main.java.system;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

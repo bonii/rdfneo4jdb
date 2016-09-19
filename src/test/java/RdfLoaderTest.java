@@ -1,4 +1,4 @@
-package test;
+package test.java;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import interfaces.GraphDBException;
-import system.RdfNeo4JDBInterpreter;
+import main.java.interfaces.GraphDBException;
+import main.java.system.RdfNeo4JDBInterpreter;
 
 public class RdfLoaderTest {
 	private static RdfNeo4JDBInterpreter dbInterpreter = null;

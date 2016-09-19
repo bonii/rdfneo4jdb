@@ -1,6 +1,4 @@
-package system;
-
-import interfaces.RdfLoader;
+package main.java.system;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,7 +10,8 @@ import java.util.List;
 
 import org.neo4j.driver.v1.*;
 
-import interfaces.GraphDBException;
+import main.java.interfaces.GraphDBException;
+import main.java.interfaces.RdfLoader;
 
 public class RdfNeo4JDBInterpreter implements RdfLoader {
 

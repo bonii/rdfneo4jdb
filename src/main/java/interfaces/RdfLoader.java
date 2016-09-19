@@ -24,7 +24,7 @@
  * RdfLoader.java created on Sep 13, 2016
  *
  **/
-package interfaces;
+package main.java.interfaces;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
