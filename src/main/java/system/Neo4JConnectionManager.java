@@ -1,13 +1,17 @@
 package main.java.system;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.neo4j.driver.v1.*;
 
 public final class Neo4JConnectionManager {
 
 	private static Map<String, Driver> myConnectedDrivers = new ConcurrentHashMap<>();
+	private static AtomicBoolean alive = new AtomicBoolean(true);
 
 	/**
 	 * 
@@ -19,7 +23,7 @@ public final class Neo4JConnectionManager {
 	 */
 	public static Driver getDriver(String serverUrl, String userName, String password) {
 		// Hacky with security concerns but ok for now
-		if (serverUrl == null || userName == null || password == null) {
+		if (serverUrl == null || userName == null || password == null || !alive.get()) {
 			return null;
 		}
 		if (serverUrl.toLowerCase().startsWith("bolt://")) {
@@ -62,5 +66,17 @@ public final class Neo4JConnectionManager {
 	public static void closeSession(Session session) {
 		if (session != null)
 			session.close();
+	}
+	
+	public static void close() {
+		if(!alive.compareAndSet(true, false)) {
+			return;
+		}
+		//Iterate over the map and shut down the driver
+		Iterator<Entry<String, Driver>> entries = myConnectedDrivers.entrySet().iterator();
+		while (entries.hasNext()) {
+		  Entry<String, Driver> thisEntry = entries.next();
+		  thisEntry.getValue().close();
+		}
 	}
 }

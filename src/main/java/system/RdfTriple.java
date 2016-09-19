@@ -59,4 +59,15 @@ public class RdfTriple {
 		return rdfTriple.toString();
 	}
 
+	public String toNTripleFormat() {
+		StringBuffer rdfTriple = new StringBuffer();
+		rdfTriple.append(subject);
+		rdfTriple.append(" ");
+		rdfTriple.append(property);
+		rdfTriple.append(" ");
+		rdfTriple.append(object);
+		rdfTriple.append(" .");
+		return rdfTriple.toString();
+	}
+
 }
