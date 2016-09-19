@@ -130,7 +130,6 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		BufferedWriter file = null;
 		try {
 			file = new BufferedWriter(new FileWriter(filePath));
-			System.out.println(dbTriples.size());
 			for (RdfTriple aTriple : dbTriples) {
 				file.write(aTriple.toNTripleFormat());
 				file.newLine();
