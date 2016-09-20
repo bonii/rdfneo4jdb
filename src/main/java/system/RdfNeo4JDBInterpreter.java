@@ -93,8 +93,7 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 			runCypherQuery(subjectInsertString, session);
 			runCypherQuery(objectInsertString, session);
 			runCypherQuery(propertyInsertString, session);
-			// Generate Cypher query to insert, batch insertions would be way
-			// better
+			// Batch insertions would be way better
 		}
 	}
 
@@ -110,7 +109,6 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		List<RdfTriple> parsedTriples = parseRdfFile(filePath);
 		addTriplesToGraphDB(parsedTriples, session);
 		Neo4JConnectionManager.closeSession(session);
-
 	}
 
 	protected List<RdfTriple> getTriplesFromGraphDb(Session session) throws GraphDBException {
@@ -148,6 +146,7 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		Session session = Neo4JConnectionManager.getSession(serverUrl, userName, password);
 		List<RdfTriple> dbTriples = getTriplesFromGraphDb(session);
 		writeRdfTriplesToFile(filePath, dbTriples);
+		Neo4JConnectionManager.closeSession(session);
 	}
 
 	@Override
@@ -157,6 +156,18 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		}
 
 		return session.run(query);
+	}
+
+	@Override
+	public StatementResult runBGPQuery(String query, Session session) throws GraphDBException {
+		// Parse the query first
+		String[] queryParts = query.split(":-");
+		if (queryParts.length != 2) {
+			throw new GraphDBException("Malformed query");
+		}
+		String[] selectionAttributes = queryParts[0].split("(")[1].split(")")[0].split(",");
+		String[] matchClauses = queryParts[1].split("AND");
+		return null;
 	}
 
 }

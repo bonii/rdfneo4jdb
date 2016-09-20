@@ -6,4 +6,6 @@ import org.neo4j.driver.v1.StatementResult;
 public interface RdfInterpreter extends RdfLoader {
 
 	public StatementResult runCypherQuery(String query, Session session) throws GraphDBException;
+	
+	public StatementResult runBGPQuery(String query, Session session) throws GraphDBException;
 }
