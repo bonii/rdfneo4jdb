@@ -1,0 +1,3 @@
+server_url=localhost
+user_name=neo4j
+password=neo4jnew

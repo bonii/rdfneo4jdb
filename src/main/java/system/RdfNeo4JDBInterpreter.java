@@ -13,6 +13,7 @@ import java.util.List;
 import org.neo4j.driver.v1.*;
 
 import main.java.interfaces.GraphDBException;
+import main.java.interfaces.Neo4JAuthenticationProps;
 import main.java.interfaces.RdfInterpreter;
 
 public class RdfNeo4JDBInterpreter implements RdfInterpreter {
@@ -21,12 +22,12 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 
 	}
 
-	protected List<RdfTriple> parseRdfFile(String filePath) throws FileNotFoundException, IOException {
+	protected List<RdfTriple> parseRdfFile(String dataFilePath) throws FileNotFoundException, IOException {
 		BufferedReader file = null;
 		try {
 			String line = "";
 			// Create the file reader
-			file = new BufferedReader(new FileReader(filePath));
+			file = new BufferedReader(new FileReader(dataFilePath));
 			List<RdfTriple> triples = new ArrayList<>();
 			// Read the file line by line
 			while ((line = file.readLine()) != null) {
@@ -98,15 +99,19 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	}
 
 	@Override
-	public void importFileIntoDb(String filePath, String serverUrl, String userName, String password)
+	public void importFileIntoDb(String dataFilePath, Neo4JAuthenticationProps auth)
 			throws GraphDBException, IOException {
-		Session session = Neo4JConnectionManager.getSession(serverUrl, userName, password);
+		if (auth == null) {
+			throw new GraphDBException("Null authentication");
+		}
+		Session session = Neo4JConnectionManager.getSession(auth.getServerUrl(), auth.getUserName(),
+				auth.getPassword());
 
 		if (session == null) {
 			throw new GraphDBException("Could not connect");
 		}
 
-		List<RdfTriple> parsedTriples = parseRdfFile(filePath);
+		List<RdfTriple> parsedTriples = parseRdfFile(dataFilePath);
 		addTriplesToGraphDB(parsedTriples, session);
 		Neo4JConnectionManager.closeSession(session);
 	}
@@ -124,10 +129,10 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		return dbTriples;
 	}
 
-	protected void writeRdfTriplesToFile(String filePath, List<RdfTriple> dbTriples) throws IOException {
+	protected void writeRdfTriplesToFile(String dataFilePath, List<RdfTriple> dbTriples) throws IOException {
 		BufferedWriter file = null;
 		try {
-			file = new BufferedWriter(new FileWriter(filePath));
+			file = new BufferedWriter(new FileWriter(dataFilePath));
 			for (RdfTriple aTriple : dbTriples) {
 				file.write(aTriple.toNTripleFormat());
 				file.newLine();
@@ -141,11 +146,15 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	}
 
 	@Override
-	public void exportDbIntoFile(String filePath, String serverUrl, String userName, String password)
+	public void exportDbIntoFile(String dataFilePath, Neo4JAuthenticationProps auth)
 			throws GraphDBException, IOException {
-		Session session = Neo4JConnectionManager.getSession(serverUrl, userName, password);
+		if (auth == null) {
+			throw new GraphDBException("Null authentication");
+		}
+		Session session = Neo4JConnectionManager.getSession(auth.getServerUrl(), auth.getUserName(),
+				auth.getPassword());
 		List<RdfTriple> dbTriples = getTriplesFromGraphDb(session);
-		writeRdfTriplesToFile(filePath, dbTriples);
+		writeRdfTriplesToFile(dataFilePath, dbTriples);
 		Neo4JConnectionManager.closeSession(session);
 	}
 
@@ -168,6 +177,24 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		String[] selectionAttributes = queryParts[0].split("(")[1].split(")")[0].split(",");
 		String[] matchClauses = queryParts[1].split("AND");
 		return null;
+	}
+
+	@Override
+	public void importFileIntoDb(String dataFilePath, String authenticationFilePath)
+			throws GraphDBException, IOException {
+		importFileIntoDb(dataFilePath, new Neo4JAuthenticationProps(authenticationFilePath));
+	}
+
+	@Override
+	public void exportDbIntoFile(String dataFilePath, String authenticationFilePath)
+			throws GraphDBException, IOException {
+		exportDbIntoFile(dataFilePath, new Neo4JAuthenticationProps(authenticationFilePath));
+	}
+
+	@Override
+	public void runBGPQueries(String queryFilePath, String authenticationFilePath, String outputFilePath)
+			throws IOException, GraphDBException {
+		
 	}
 
 }
