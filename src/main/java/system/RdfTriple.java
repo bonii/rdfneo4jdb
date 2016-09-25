@@ -69,5 +69,4 @@ public class RdfTriple {
 		rdfTriple.append(" .");
 		return rdfTriple.toString();
 	}
-
 }

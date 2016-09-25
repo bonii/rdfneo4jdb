@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.neo4j.driver.v1.*;
 
+import main.java.interfaces.Neo4JAuthenticationProps;
+
 public final class Neo4JConnectionManager {
 
 	private static Map<String, Driver> myConnectedDrivers = new ConcurrentHashMap<>();
@@ -63,20 +65,24 @@ public final class Neo4JConnectionManager {
 		return getSession(driver);
 	}
 
+	public static Session getSession(Neo4JAuthenticationProps auth) {
+		return getSession(auth.getServerUrl(), auth.getUserName(), auth.getPassword());
+	}
+
 	public static void closeSession(Session session) {
 		if (session != null)
 			session.close();
 	}
-	
+
 	public static void close() {
-		if(!alive.compareAndSet(true, false)) {
+		if (!alive.compareAndSet(true, false)) {
 			return;
 		}
-		//Iterate over the map and shut down the driver
+		// Iterate over the map and shut down the driver
 		Iterator<Entry<String, Driver>> entries = myConnectedDrivers.entrySet().iterator();
 		while (entries.hasNext()) {
-		  Entry<String, Driver> thisEntry = entries.next();
-		  thisEntry.getValue().close();
+			Entry<String, Driver> thisEntry = entries.next();
+			thisEntry.getValue().close();
 		}
 	}
 }

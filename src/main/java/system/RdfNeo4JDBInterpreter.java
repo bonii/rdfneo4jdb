@@ -104,8 +104,7 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		if (auth == null) {
 			throw new GraphDBException("Null authentication");
 		}
-		Session session = Neo4JConnectionManager.getSession(auth.getServerUrl(), auth.getUserName(),
-				auth.getPassword());
+		Session session = Neo4JConnectionManager.getSession(auth);
 
 		if (session == null) {
 			throw new GraphDBException("Could not connect");
@@ -151,8 +150,7 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		if (auth == null) {
 			throw new GraphDBException("Null authentication");
 		}
-		Session session = Neo4JConnectionManager.getSession(auth.getServerUrl(), auth.getUserName(),
-				auth.getPassword());
+		Session session = Neo4JConnectionManager.getSession(auth);
 		List<RdfTriple> dbTriples = getTriplesFromGraphDb(session);
 		writeRdfTriplesToFile(dataFilePath, dbTriples);
 		Neo4JConnectionManager.closeSession(session);
@@ -168,15 +166,10 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	}
 
 	@Override
-	public StatementResult runBGPQuery(String query, Session session) throws GraphDBException {
-		// Parse the query first
-		String[] queryParts = query.split(":-");
-		if (queryParts.length != 2) {
-			throw new GraphDBException("Malformed query");
-		}
-		String[] selectionAttributes = queryParts[0].split("(")[1].split(")")[0].split(",");
-		String[] matchClauses = queryParts[1].split("AND");
-		return null;
+	public String runBGPQuery(String query, Session session) throws GraphDBException {
+		BGPQuery parsedQuery = new BGPQuery(query);
+		// Now comes the nasty part
+		return "";
 	}
 
 	@Override
@@ -194,7 +187,42 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	@Override
 	public void runBGPQueries(String queryFilePath, String authenticationFilePath, String outputFilePath)
 			throws IOException, GraphDBException {
-		
+		// Each query must be terminated by a " ." and a new line
+		BufferedReader queryReader = null;
+		BufferedWriter queryWriter = null;
+		Session session = Neo4JConnectionManager.getSession(new Neo4JAuthenticationProps(authenticationFilePath));
+		try {
+			queryReader = new BufferedReader(new FileReader(queryFilePath));
+			queryWriter = new BufferedWriter(new FileWriter(outputFilePath));
+			String line = null;
+			StringBuffer aQuery = new StringBuffer();
+			while ((line = queryReader.readLine()) != null) {
+				if (line.trim().startsWith("#")) {
+					continue;
+				}
+				if (!line.endsWith(" .")) {
+					aQuery.append(line.trim());
+				} else {
+					aQuery.append(line.substring(0, line.indexOf(" .")).trim());
+					// We have found a query, parse it, run it and stream its
+					// output
+					System.out.println("Running query");
+					String result = runBGPQuery(aQuery.toString(), session);
+					aQuery = new StringBuffer();
+					queryWriter.write("################################");
+					queryWriter.newLine();
+					queryWriter.write(result);
+					queryWriter.newLine();
+					queryWriter.flush();
+				}
+			}
+		} finally {
+			if (queryReader != null) {
+				queryReader.close();
+			}
+			if (queryWriter != null) {
+				queryWriter.close();
+			}
+		}
 	}
-
 }
