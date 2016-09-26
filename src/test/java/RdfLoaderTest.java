@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.neo4j.driver.v1.Session;
 
 import main.java.interfaces.GraphDBException;
-import main.java.interfaces.Neo4JAuthenticationProps;
 import main.java.system.Neo4JConnectionManager;
 import main.java.system.RdfNeo4JDBInterpreter;
 
@@ -41,7 +40,7 @@ public class RdfLoaderTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		cleanUpGraphDb();
+		//cleanUpGraphDb();
 		Neo4JConnectionManager.close();
 	}
 
@@ -68,6 +67,7 @@ public class RdfLoaderTest {
 
 	@Test
 	public void testBGPQueryCapability() throws IOException, GraphDBException {
+		dbInterpreter.importFileIntoDb(inputFilePath,authFilePath);
 		dbInterpreter.runBGPQueries(queryInputFilePath, authFilePath, queryOutputFilePath);
 	}
 

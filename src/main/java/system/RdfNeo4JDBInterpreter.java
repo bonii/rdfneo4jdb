@@ -169,7 +169,18 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	public String runBGPQuery(String query, Session session) throws GraphDBException {
 		BGPQuery parsedQuery = new BGPQuery(query);
 		// Now comes the nasty part
-		return "";
+		String cypherQuery = parsedQuery.toCypherClause();
+		StatementResult result = runCypherQuery(cypherQuery, session);
+		StringBuffer resultString = new StringBuffer();
+		while(result.hasNext()) {
+			Record record = result.next();
+			for(String anAttribute : parsedQuery.getSelectionAttributes()) {
+				resultString.append(record.get(anAttribute+".value"));
+				resultString.append(" , ");
+			}
+			resultString.append("\n");
+		}
+		return resultString.toString();
 	}
 
 	@Override

@@ -14,9 +14,9 @@ public final class BGPClause {
 		if (unparsedClause.length != 3) {
 			throw new GraphDBException("Parsing error: Malformed clause");
 		}
-		this.subject = new BGPToken(unparsedClause[0]);
-		this.relationship = new BGPToken(unparsedClause[1]);
-		this.object = new BGPToken(unparsedClause[2]);
+		this.subject = new BGPToken(unparsedClause[0],false);
+		this.relationship = new BGPToken(unparsedClause[1],true);
+		this.object = new BGPToken(unparsedClause[2],false);
 	}
 
 	public BGPToken getSubject() {
@@ -29,6 +29,16 @@ public final class BGPClause {
 
 	public BGPToken getObject() {
 		return object;
+	}
+
+	public String toCypherClause() {
+		StringBuffer cypherClause = new StringBuffer();
+		cypherClause.append(subject.toCypherClause());
+		cypherClause.append("-");
+		cypherClause.append(relationship.toCypherClause());
+		cypherClause.append("->");
+		cypherClause.append(object.toCypherClause());
+		return cypherClause.toString();
 	}
 
 }

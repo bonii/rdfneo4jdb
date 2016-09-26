@@ -6,8 +6,8 @@
 <http://example.org/Carole> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/Responsible> .
 <http://example.org/Bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/Teacher> .
 
-<http://example.org/SWUnit> <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
-<http://example.org/XMLUnit> <http://www.w3.org/1999/0222-rdf-syntax-ns#type> <http://example.org/Unit> .
+<http://example.org/SWUnit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/Unit> .
+<http://example.org/XMLUnit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/Unit> .
 <http://example.org/SWUnit> <http://example.org/hasUnitName> "Semantic Web" .
 <http://example.org/XMLUnit> <http://example.org/hasUnitName> "XML and Internet Programming" .
 <http://example.org/SWUnit> <http://example.org/hasMidtermExamType> "Presentation" .

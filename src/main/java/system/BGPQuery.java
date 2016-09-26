@@ -39,4 +39,20 @@ public class BGPQuery {
 	public List<BGPClause> getClauses() {
 		return clauses;
 	}
+	
+	public String toCypherClause() {
+		StringBuffer cypherClause = new StringBuffer("match ");
+		for(BGPClause aClause: clauses) {
+			cypherClause.append(aClause.toCypherClause());
+			cypherClause.append(",");
+		}
+		cypherClause.deleteCharAt(cypherClause.length()-1);
+		cypherClause.append(" return ");
+		for(String attribute:selectionAttributes) {
+			cypherClause.append(attribute);
+			cypherClause.append(".value,");
+		}
+		cypherClause.deleteCharAt(cypherClause.length()-1);		
+		return cypherClause.toString();
+	}
 }

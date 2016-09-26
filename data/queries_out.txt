@@ -1,12 +1,20 @@
 ################################
+"<http://example.org/XMLUnit>" , 
+"<http://example.org/SWUnit>" , 
 
 ################################
+"<http://example.org/SWUnit>" , 
 
 ################################
+"<http://example.org/XMLUnit>" , 
+"<http://example.org/SWUnit>" , 
 
 ################################
+"<http://example.org/SWUnit>" , "<http://example.org/XMLUnit>" , 
 
 ################################
+"<http://example.org/SWUnit>" , 
 
 ################################
+"<http://example.org/XMLUnit>" , 
 
