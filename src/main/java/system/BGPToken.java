@@ -10,10 +10,6 @@ public final class BGPToken {
 			this.value = value.trim().substring(1).trim();
 			this.variable = true;
 		} else {
-			/*
-			 * this.value = ((value.trim().startsWith("\"")) ? "" : "\"") +
-			 * value.trim() + ((value.trim().endsWith("\"")) ? "" : "\"");
-			 */
 			this.value = value.trim();
 			this.variable = false;
 		}
@@ -34,7 +30,7 @@ public final class BGPToken {
 		if (relationship) {
 			cypherClause.append("[");
 			if (isVariable()) {
-				cypherClause.append("value:property]");
+				cypherClause.append(value+":property]");
 			} else {
 				cypherClause.append(":property {value:'");
 				cypherClause.append(value);
@@ -43,12 +39,6 @@ public final class BGPToken {
 			}
 		} else {
 			cypherClause.append("(");
-			/*
-			 * if (value.startsWith("\"")) { valueWithoutQuotes =
-			 * value.substring(1, value.length() - 1); }
-			 * 
-			 * cypherClause.append(valueWithoutQuotes);
-			 */
 			if (!isVariable()) {
 				cypherClause.append(" {value: '" + value + "'}");
 			} else {

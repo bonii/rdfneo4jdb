@@ -1,6 +1,5 @@
 package test.java;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.junit.After;
@@ -36,11 +35,12 @@ public class RdfLoaderTest {
 	public static void setUpBeforeClass() throws Exception {
 		dbInterpreter = new RdfNeo4JDBInterpreter();
 		cleanUpGraphDb();
+		dbInterpreter.importFileIntoDb(inputFilePath, authFilePath);
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		//cleanUpGraphDb();
+		cleanUpGraphDb();
 		Neo4JConnectionManager.close();
 	}
 
@@ -53,14 +53,14 @@ public class RdfLoaderTest {
 	}
 
 	@Test
-	public void testFileImportExport() throws FileNotFoundException, GraphDBException, IOException {
+	public void testFileImportExport() throws Exception {
 		/*
 		 * dbInterpreter.importFileIntoDb(inputFilePath, new
 		 * Neo4JAuthenticationProps(serverUrl, userName, password));
 		 * dbInterpreter.exportDbIntoFile(outputFilePath, new
 		 * Neo4JAuthenticationProps(serverUrl, userName, password));
 		 */
-
+		cleanUpGraphDb();
 		dbInterpreter.importFileIntoDb(inputFilePath, authFilePath);
 		dbInterpreter.exportDbIntoFile(outputFilePath, authFilePath);
 	}
