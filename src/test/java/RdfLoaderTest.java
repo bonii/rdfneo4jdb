@@ -18,11 +18,11 @@ public class RdfLoaderTest {
 	private static final String serverUrl = "localhost";
 	private static final String userName = "neo4j";
 	private static final String password = "neo4jnew";
-	private static final String inputFilePath = "/universe/studies/copenhagen-university/phd/courses/scalable-tools-linked-data-analysis/rdfneo4jdb/data/dataset.txt";
-	private static final String outputFilePath = "/universe/studies/copenhagen-university/phd/courses/scalable-tools-linked-data-analysis/rdfneo4jdb/data/dataset_res.txt";
-	private static final String authFilePath = "/universe/studies/copenhagen-university/phd/courses/scalable-tools-linked-data-analysis/rdfneo4jdb/data/auth.txt";
-	private static final String queryInputFilePath = "/universe/studies/copenhagen-university/phd/courses/scalable-tools-linked-data-analysis/rdfneo4jdb/data/queries.txt";
-	private static final String queryOutputFilePath = "/universe/studies/copenhagen-university/phd/courses/scalable-tools-linked-data-analysis/rdfneo4jdb/data/queries_out.txt";
+	private static final String inputFilePath = "data/dataset.txt";
+	private static final String outputFilePath = "data/dataset_res.txt";
+	private static final String authFilePath = "data/auth.txt";
+	private static final String queryInputFilePath = "data/queries.txt";
+	private static final String queryOutputFilePath = "data/queries_out.txt";
 
 	public static void cleanUpGraphDb() throws Exception {
 		Session session = Neo4JConnectionManager.getSession(serverUrl, userName, password);
