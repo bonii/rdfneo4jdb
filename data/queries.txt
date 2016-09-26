@@ -10,18 +10,22 @@ q(?a) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example
 
 q(?a,?b) :- (?a, ?b, "Alice") .
 
-
 #4
+
+q(?a,?b) :- (<http://example.org/Carole>, ?a, ?b) .
+
+
+#5
 
 q(?a,?b) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example.org/Unit>) ;
            (?a, <http://example.org/hasPreRequisite>, ?b) .
 
-#5
+#6
 
 q(?a) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example.org/Unit>) ;
         (?a, <http://example.org/hasResponsible>, <http://example.org/Alice>) .
 
-#6
+#7
 
 q(?a) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example.org/Unit>) ;
         (?a, <http://example.org/hasResponsible>, <http://example.org/Carole>) .

@@ -174,9 +174,17 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		StringBuffer resultString = new StringBuffer();
 		while(result.hasNext()) {
 			Record record = result.next();
+			Boolean firstRecord = true;
 			for(String anAttribute : parsedQuery.getSelectionAttributes()) {
-				resultString.append(record.get(anAttribute+".value"));
-				resultString.append(" , ");
+				if(!firstRecord) {
+					resultString.append(" , ");
+				} else {
+					firstRecord = false;
+				}
+				StringBuffer attributeValue = new StringBuffer(record.get(anAttribute+".value").toString());				
+				attributeValue.deleteCharAt(0);
+				attributeValue.deleteCharAt(attributeValue.length()-1);
+				resultString.append(attributeValue.toString());				
 			}
 			resultString.append("\n");
 		}

@@ -42,17 +42,26 @@ public class BGPQuery {
 	
 	public String toCypherClause() {
 		StringBuffer cypherClause = new StringBuffer("match ");
+		Boolean firstClause = true;
 		for(BGPClause aClause: clauses) {
+			if(!firstClause) {
+				cypherClause.append(",");
+			} else {
+				firstClause = false;
+			}
 			cypherClause.append(aClause.toCypherClause());
-			cypherClause.append(",");
+			
 		}
-		cypherClause.deleteCharAt(cypherClause.length()-1);
 		cypherClause.append(" return ");
+		Boolean firstAttribute = true;
 		for(String attribute:selectionAttributes) {
-			cypherClause.append(attribute);
-			cypherClause.append(".value,");
+			if(!firstAttribute){
+				cypherClause.append(",");
+			} else {
+				firstAttribute = false;
+			}
+			cypherClause.append(attribute+".value");			
 		}
-		cypherClause.deleteCharAt(cypherClause.length()-1);		
 		return cypherClause.toString();
 	}
 }
