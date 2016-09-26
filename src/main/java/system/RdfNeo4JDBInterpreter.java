@@ -217,7 +217,6 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 					aQuery.append(line.substring(0, line.indexOf(" .")).trim());
 					// We have found a query, parse it, run it and stream its
 					// output
-					System.out.println("Running query");
 					String result = runBGPQuery(aQuery.toString(), session);
 					aQuery = new StringBuffer();
 					queryWriter.write("################################");
