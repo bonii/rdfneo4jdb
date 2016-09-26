@@ -8,9 +8,8 @@ q(?a) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example
 
 #3
 
-q(?a) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://example.org/Unit>) ;
-         (?a, <http://example.org/hasMidtermGrade>, ?b) ;
-        (?a, <http://example.org/hasFinalGrade>, ?c) .
+q(?a,?b) :- (?a, ?b, "Alice") .
+
 
 #4
 

@@ -6,8 +6,7 @@
 "<http://example.org/SWUnit>" , 
 
 ################################
-"<http://example.org/XMLUnit>" , 
-"<http://example.org/SWUnit>" , 
+"<http://example.org/Alice>" , "<http://example.org/hasName>" , 
 
 ################################
 "<http://example.org/SWUnit>" , "<http://example.org/XMLUnit>" , 
