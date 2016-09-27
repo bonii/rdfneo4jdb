@@ -241,6 +241,15 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 			if (queryWriter != null) {
 				queryWriter.close();
 			}
+			Neo4JConnectionManager.closeSession(session);
 		}
+	}
+
+	@Override
+	public void cleanDB(String authenticationFilePath) throws GraphDBException, IOException {
+		Session session = Neo4JConnectionManager.getSession(new Neo4JAuthenticationProps(authenticationFilePath));
+		String cypherDeleteQuery = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r";
+		runCypherQuery(cypherDeleteQuery, session);
+		Neo4JConnectionManager.closeSession(session);		
 	}
 }

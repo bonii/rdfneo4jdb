@@ -29,8 +29,9 @@ public final class Neo4JConnectionManager {
 			return null;
 		}
 		if (serverUrl.toLowerCase().startsWith("bolt://")) {
-			if (myConnectedDrivers.containsKey(serverUrl + userName)) {
-				return myConnectedDrivers.get(serverUrl + userName);
+			Driver value = myConnectedDrivers.get(serverUrl + userName);
+			if (value != null) {
+				return value;
 			}
 		} else {
 			serverUrl = "bolt://" + serverUrl;

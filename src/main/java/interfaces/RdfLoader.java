@@ -34,16 +34,14 @@ import java.io.IOException;
  */
 public interface RdfLoader {
 
-	void importFileIntoDb(String dataFilePath, Neo4JAuthenticationProps auth)
-			throws GraphDBException, IOException;
+	void importFileIntoDb(String dataFilePath, Neo4JAuthenticationProps auth) throws GraphDBException, IOException;
 
-    void importFileIntoDb(String dataFilePath, String authenticationFilePath)
-			throws GraphDBException, IOException;
+	void importFileIntoDb(String dataFilePath, String authenticationFilePath) throws GraphDBException, IOException;
 
-	void exportDbIntoFile(String dataFilePath, Neo4JAuthenticationProps auth)
-			throws GraphDBException, IOException;
+	void exportDbIntoFile(String dataFilePath, Neo4JAuthenticationProps auth) throws GraphDBException, IOException;
 
-	void exportDbIntoFile(String dataFilePath, String authenticationFilePath)
-			throws GraphDBException, IOException;
+	void exportDbIntoFile(String dataFilePath, String authenticationFilePath) throws GraphDBException, IOException;
+
+	void cleanDB(String authenticationFilePath) throws GraphDBException, IOException;
 
 }

@@ -1,0 +1,8 @@
+To run tests use:
+mvn test
+
+To build an executable use:
+mvn clean package -DskipTests
+
+To run the executable and see its command line options use:
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar 
