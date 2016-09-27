@@ -1,3 +1,5 @@
+RDFNeo4jDB is an implementation of a thin interpreter layer which can import RDF datasets (in triple format) into a Neo4J graph database. It also supports exporting an imported RDF graph database into a RDF data dump (in triple format). The interpreter layer also answers BGP queries assuming that the dataset is already summarized (it does not perform any summarization). See data/ directory for synatactic examples of data and queries.
+
 To run tests use:
 mvn test
 
@@ -5,4 +7,14 @@ To build an executable use:
 mvn clean package -DskipTests
 
 To run the executable and see its command line options use:
-java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar 
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar
+
+To clean database, import and export use (you can use any combinations of commands here) :
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar --clean -af data/auth.txt --import -if data/dataset.nt --export -of data/dataset_res.nt
+
+To run queries on the database use (you cannot invoke import/export with the query command):
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar -af data/auth.txt --query -if data/queries.txt -of data/queries_out.txt
+
+** The above commands assume they are being run from the root directory of the project.
+** Remember to change the auth file with the correct authentication information / provide appropriate authentication file.
+** data/ directory contains sample rdf files and queries with which the code has been tested and the test cases run against.
