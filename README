@@ -18,3 +18,4 @@ java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar -af data/auth.txt --
 ** The above commands assume they are being run from the root directory of the project.
 ** Remember to change the auth file with the correct authentication information / provide appropriate authentication file.
 ** data/ directory contains sample rdf files and queries with which the code has been tested and the test cases run against.
+** Use -d switch if you want to print the stack trace for errors.
