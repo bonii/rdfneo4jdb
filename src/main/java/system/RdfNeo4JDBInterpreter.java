@@ -172,19 +172,19 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		String cypherQuery = parsedQuery.toCypherClause();
 		StatementResult result = runCypherQuery(cypherQuery, session);
 		StringBuffer resultString = new StringBuffer();
-		while(result.hasNext()) {
+		while (result.hasNext()) {
 			Record record = result.next();
 			Boolean firstRecord = true;
-			for(String anAttribute : parsedQuery.getSelectionAttributes()) {
-				if(!firstRecord) {
+			for (String anAttribute : parsedQuery.getSelectionAttributes()) {
+				if (!firstRecord) {
 					resultString.append(" , ");
 				} else {
 					firstRecord = false;
 				}
-				StringBuffer attributeValue = new StringBuffer(record.get(anAttribute+".value").toString());				
+				StringBuffer attributeValue = new StringBuffer(record.get(anAttribute + ".value").toString());
 				attributeValue.deleteCharAt(0);
-				attributeValue.deleteCharAt(attributeValue.length()-1);
-				resultString.append(attributeValue.toString());				
+				attributeValue.deleteCharAt(attributeValue.length() - 1);
+				resultString.append(attributeValue.toString());
 			}
 			resultString.append("\n");
 		}
@@ -249,7 +249,10 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 	public void cleanDB(String authenticationFilePath) throws GraphDBException, IOException {
 		Session session = Neo4JConnectionManager.getSession(new Neo4JAuthenticationProps(authenticationFilePath));
 		String cypherDeleteQuery = "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r";
-		runCypherQuery(cypherDeleteQuery, session);
-		Neo4JConnectionManager.closeSession(session);		
+		try {
+			runCypherQuery(cypherDeleteQuery, session);
+		} finally {
+			Neo4JConnectionManager.closeSession(session);
+		}
 	}
 }
