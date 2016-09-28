@@ -26,6 +26,12 @@ package main.java.system;
 
 import main.java.interfaces.GraphDBException;
 
+/**
+ * Datastructure to represent a single clause in a BGP query
+ * 
+ * @author bonii
+ *
+ */
 public final class BGPClause {
 	private final BGPToken subject;
 	private final BGPToken relationship;
@@ -38,9 +44,9 @@ public final class BGPClause {
 		if (unparsedClause.length != 3) {
 			throw new GraphDBException("Parsing error: Malformed clause");
 		}
-		this.subject = new BGPToken(unparsedClause[0],false);
-		this.relationship = new BGPToken(unparsedClause[1],true);
-		this.object = new BGPToken(unparsedClause[2],false);
+		this.subject = new BGPToken(unparsedClause[0], false);
+		this.relationship = new BGPToken(unparsedClause[1], true);
+		this.object = new BGPToken(unparsedClause[2], false);
 	}
 
 	public BGPToken getSubject() {

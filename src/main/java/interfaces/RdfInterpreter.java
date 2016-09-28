@@ -19,7 +19,7 @@
  *  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
  *  Author Vivek Shah <bonii at kernelspace.in>
- *  RdfInterpreter.java created on Sep 27, 2016
+ *  RdfLoader.java created on Sep 27, 2016
  *
 **/
 package main.java.interfaces;
@@ -29,7 +29,24 @@ import java.io.IOException;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 
-public interface RdfInterpreter extends RdfLoader {
+/**
+ * 
+ * Defines the interface to interact with the RDFNeo4JDB
+ * 
+ * @author bonii
+ *
+ */
+public interface RdfInterpreter {
+
+	void importFileIntoDb(String dataFilePath, Neo4JAuthenticationProps auth) throws GraphDBException, IOException;
+
+	void importFileIntoDb(String dataFilePath, String authenticationFilePath) throws GraphDBException, IOException;
+
+	void exportDbIntoFile(String dataFilePath, Neo4JAuthenticationProps auth) throws GraphDBException, IOException;
+
+	void exportDbIntoFile(String dataFilePath, String authenticationFilePath) throws GraphDBException, IOException;
+
+	void cleanDB(String authenticationFilePath) throws GraphDBException, IOException;
 
 	public StatementResult runCypherQuery(String query, Session session) throws GraphDBException;
 
@@ -37,4 +54,5 @@ public interface RdfInterpreter extends RdfLoader {
 
 	public void runBGPQueries(String queryFilePath, String authenticationFilePath, String outputFilePath)
 			throws IOException, GraphDBException;
+
 }

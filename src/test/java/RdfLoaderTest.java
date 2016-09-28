@@ -24,25 +24,49 @@
 **/
 package test.java;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import main.java.interfaces.GraphDBException;
 import main.java.system.Neo4JConnectionManager;
 import main.java.system.RdfNeo4JDBInterpreter;
 
+/**
+ * Minimal test class developed to trigger the RDFNeo4JDB methods.
+ * 
+ * XXX: Not much unit testing
+ * 
+ * @author bonii
+ *
+ */
 public class RdfLoaderTest {
 	private static RdfNeo4JDBInterpreter dbInterpreter = null;
 	private static final String inputFilePath = "data/dataset.nt";
-	private static final String outputFilePath = "data/dateset_res.nt";
+	private static final String outputFilePath = "data/dataset_res.nt";
 	private static final String authFilePath = "data/auth.txt";
 	private static final String queryInputFilePath = "data/queries.txt";
 	private static final String queryOutputFilePath = "data/queries_out.txt";
+	private static final String bashDiffScript = "data/check_diff.sh"; // To
+																		// check
+																		// import/export
+																		// ->
+																		// redirection
+																		// does
+																		// not
+																		// work
+																		// well
+																		// with
+																		// Java
+																		// process
+																		// execution
 
 	public static void cleanUpGraphDb() throws Exception {
 		dbInterpreter.cleanDB(authFilePath);
@@ -72,6 +96,13 @@ public class RdfLoaderTest {
 	@Test
 	public void testFileImportExport() throws Exception {
 		dbInterpreter.exportDbIntoFile(outputFilePath, authFilePath);
+		String bashShellCommand = "./"+bashDiffScript+" "+inputFilePath+" "+outputFilePath;
+		Process diffProcess = Runtime.getRuntime().exec(bashShellCommand);
+		BufferedReader stdInput = new BufferedReader(new InputStreamReader(diffProcess.getInputStream()));
+
+		if (stdInput.readLine() != null) {
+			fail();
+		}
 	}
 
 	@Test

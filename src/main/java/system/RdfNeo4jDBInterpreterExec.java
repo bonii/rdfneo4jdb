@@ -24,6 +24,9 @@
 **/
 package main.java.system;
 
+/**
+ * Stand alone executable to interact with RDFNeo4JDB through commands
+ */
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -45,14 +48,13 @@ public final class RdfNeo4jDBInterpreterExec {
 		options.addOption("d", "debug", false, "Turn on stack trace");
 
 		HelpFormatter formatter = new HelpFormatter();
-		
-		
+
 		CommandLineParser parser = new DefaultParser();
 		Boolean debug = false;
 		try {
 			CommandLine line = parser.parse(options, args);
 
-			if(line.getOptions().length == 0) {
+			if (line.getOptions().length == 0) {
 				formatter.printHelp("RDFNeo4JDB", options, true);
 				return;
 			}
@@ -65,14 +67,14 @@ public final class RdfNeo4jDBInterpreterExec {
 			if (queryCommand) {
 				if (importCommand || exportCommand) {
 					System.err.println("Query command cannot be combined with import/export command");
-					formatter.printHelp( "RdfNeo4JDB", options, true );
+					formatter.printHelp("RdfNeo4JDB", options, true);
 					return;
 				}
 			}
 			Boolean authFilePresent = line.hasOption("af");
 			if (!authFilePresent) {
 				System.err.println("Command line error: Auth file must be present for all arguments");
-				formatter.printHelp( "RdfNeo4JDB", options, true );
+				formatter.printHelp("RdfNeo4JDB", options, true);
 				return;
 			}
 
@@ -81,19 +83,19 @@ public final class RdfNeo4jDBInterpreterExec {
 
 			if (importCommand && !inputFilePresent) {
 				System.err.println("Command line error: Import command must have an input file");
-				formatter.printHelp( "RdfNeo4JDB", options, true );
+				formatter.printHelp("RdfNeo4JDB", options, true);
 				return;
 			}
 
 			if (exportCommand && !outputFilePresent) {
 				System.err.println("Command line error: Export command must have an output file");
-				formatter.printHelp( "RdfNeo4JDB", options, true );
+				formatter.printHelp("RdfNeo4JDB", options, true);
 				return;
 			}
 
 			if (queryCommand && (!inputFilePresent || !outputFilePresent)) {
 				System.err.println("Command line error: Query command must have an input and output file");
-				formatter.printHelp( "RdfNeo4JDB", options, true );
+				formatter.printHelp("RdfNeo4JDB", options, true);
 				return;
 			}
 
@@ -118,7 +120,7 @@ public final class RdfNeo4jDBInterpreterExec {
 						line.getOptionValue("of"));
 			}
 		} catch (Exception ex) {
-			System.err.println("Error running commands");
+			System.err.println("Error running commands. Use -d to print statcktrace");
 			if (debug) {
 				ex.printStackTrace();
 			}

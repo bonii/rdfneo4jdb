@@ -29,6 +29,12 @@ import java.util.List;
 
 import main.java.interfaces.GraphDBException;
 
+/**
+ * Datastructure to represent a BGP Query
+ * 
+ * @author bonii
+ *
+ */
 public class BGPQuery {
 	private final List<String> selectionAttributes;
 	private final List<BGPClause> clauses;
@@ -48,6 +54,7 @@ public class BGPQuery {
 			selectionAttributes.add(anAttribute.trim().substring(1).trim());
 		}
 
+		// Each clause is separated by a ;
 		String[] unparsedClauses = queryParts[1].split(";");
 		clauses = new ArrayList<>();
 		for (String aClause : unparsedClauses) {
@@ -63,28 +70,28 @@ public class BGPQuery {
 	public List<BGPClause> getClauses() {
 		return clauses;
 	}
-	
+
 	public String toCypherClause() {
 		StringBuffer cypherClause = new StringBuffer("match ");
 		Boolean firstClause = true;
-		for(BGPClause aClause: clauses) {
-			if(!firstClause) {
+		for (BGPClause aClause : clauses) {
+			if (!firstClause) {
 				cypherClause.append(",");
 			} else {
 				firstClause = false;
 			}
 			cypherClause.append(aClause.toCypherClause());
-			
+
 		}
 		cypherClause.append(" return ");
 		Boolean firstAttribute = true;
-		for(String attribute:selectionAttributes) {
-			if(!firstAttribute){
+		for (String attribute : selectionAttributes) {
+			if (!firstAttribute) {
 				cypherClause.append(",");
 			} else {
 				firstAttribute = false;
 			}
-			cypherClause.append(attribute+".value");			
+			cypherClause.append(attribute + ".value");
 		}
 		return cypherClause.toString();
 	}

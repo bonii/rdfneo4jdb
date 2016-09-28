@@ -34,19 +34,18 @@ import org.neo4j.driver.v1.*;
 
 import main.java.interfaces.Neo4JAuthenticationProps;
 
+/**
+ * Utility to create/manage connections to Neo4J DB inspired by JDBC
+ * DriverManager
+ * 
+ * @author bonii
+ *
+ */
 public final class Neo4JConnectionManager {
 
 	private static Map<String, Driver> myConnectedDrivers = new ConcurrentHashMap<>();
 	private static AtomicBoolean alive = new AtomicBoolean(true);
 
-	/**
-	 * 
-	 * @param serverUrl
-	 *            (without bolt://)
-	 * @param userName
-	 * @param password
-	 * @return
-	 */
 	public static Driver getDriver(String serverUrl, String userName, String password) {
 		// Hacky with security concerns but ok for now
 		if (serverUrl == null || userName == null || password == null || !alive.get()) {
@@ -77,14 +76,6 @@ public final class Neo4JConnectionManager {
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param serverUrl
-	 *            (without bolt://)
-	 * @param userName
-	 * @param password
-	 * @return
-	 */
 	public static Session getSession(String serverUrl, String userName, String password) {
 		Driver driver = getDriver(serverUrl, userName, password);
 		return getSession(driver);

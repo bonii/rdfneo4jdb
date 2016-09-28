@@ -26,6 +26,11 @@ package main.java.system;
 
 import java.io.InvalidObjectException;
 
+/**
+ * Datastructure to represent an RDF triple data
+ * @author bonii
+ *
+ */
 public class RdfTriple {
 	private String subject;
 	private String property;

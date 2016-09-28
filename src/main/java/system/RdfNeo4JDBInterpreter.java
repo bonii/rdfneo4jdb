@@ -40,11 +40,14 @@ import main.java.interfaces.GraphDBException;
 import main.java.interfaces.Neo4JAuthenticationProps;
 import main.java.interfaces.RdfInterpreter;
 
+/**
+ * Implementation of the RDFNeo4JDB layer, currently designed as a stateless
+ * wrapper
+ * 
+ * @author bonii
+ *
+ */
 public class RdfNeo4JDBInterpreter implements RdfInterpreter {
-
-	public RdfNeo4JDBInterpreter() {
-
-	}
 
 	protected List<RdfTriple> parseRdfFile(String dataFilePath) throws FileNotFoundException, IOException {
 		BufferedReader file = null;
@@ -130,13 +133,12 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 		}
 		Session session = Neo4JConnectionManager.getSession(auth);
 
-		if (session == null) {
-			throw new GraphDBException("Could not connect");
+		try {
+			List<RdfTriple> parsedTriples = parseRdfFile(dataFilePath);
+			addTriplesToGraphDB(parsedTriples, session);
+		} finally {
+			Neo4JConnectionManager.closeSession(session);
 		}
-
-		List<RdfTriple> parsedTriples = parseRdfFile(dataFilePath);
-		addTriplesToGraphDB(parsedTriples, session);
-		Neo4JConnectionManager.closeSession(session);
 	}
 
 	protected List<RdfTriple> getTriplesFromGraphDb(Session session) throws GraphDBException {
@@ -175,9 +177,12 @@ public class RdfNeo4JDBInterpreter implements RdfInterpreter {
 			throw new GraphDBException("Null authentication");
 		}
 		Session session = Neo4JConnectionManager.getSession(auth);
-		List<RdfTriple> dbTriples = getTriplesFromGraphDb(session);
-		writeRdfTriplesToFile(dataFilePath, dbTriples);
-		Neo4JConnectionManager.closeSession(session);
+		try {
+			List<RdfTriple> dbTriples = getTriplesFromGraphDb(session);
+			writeRdfTriplesToFile(dataFilePath, dbTriples);
+		} finally {
+			Neo4JConnectionManager.closeSession(session);
+		}
 	}
 
 	@Override

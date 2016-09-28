@@ -24,6 +24,12 @@
 **/
 package main.java.system;
 
+/**
+ * Datastructure to represent a token in a clause
+ * 
+ * @author bonii
+ *
+ */
 public final class BGPToken {
 	private final String value;
 	private final Boolean variable;
@@ -31,6 +37,7 @@ public final class BGPToken {
 
 	public BGPToken(String value, Boolean relationship) {
 		if (value.trim().startsWith("?")) {
+			// Variables should begin with ?
 			this.value = value.trim().substring(1).trim();
 			this.variable = true;
 		} else {
@@ -54,7 +61,7 @@ public final class BGPToken {
 		if (relationship) {
 			cypherClause.append("[");
 			if (isVariable()) {
-				cypherClause.append(value+":property]");
+				cypherClause.append(value + ":property]");
 			} else {
 				cypherClause.append(":property {value:'");
 				cypherClause.append(value);
