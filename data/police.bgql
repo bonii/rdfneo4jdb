@@ -1,0 +1,1 @@
+q(?a,?b) :- (?a, <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>, <http://greek-lod.math.auth.gr/police/resource/crimes>) ; (?a,<http://crime.psi.enakting.org/id/Total>, ?b) .

@@ -49,11 +49,11 @@ import main.java.system.RdfNeo4JDBInterpreter;
  */
 public class RdfLoaderTest {
 	private static RdfNeo4JDBInterpreter dbInterpreter = null;
-	private static final String inputFilePath = "data/dataset.nt";
-	private static final String outputFilePath = "data/dataset_res.nt";
+	private static final String inputFilePath = "data/unit.nt";
+	private static final String outputFilePath = "data/unit_ex.nt";
 	private static final String authFilePath = "data/auth.txt";
-	private static final String queryInputFilePath = "data/queries.txt";
-	private static final String queryOutputFilePath = "data/queries_out.txt";
+	private static final String queryInputFilePath = "data/unit.bgql";
+	private static final String queryOutputFilePath = "data/unit_res.nt";
 	private static final String bashDiffScript = "data/check_diff.sh"; // To
 																		// check
 																		// import/export

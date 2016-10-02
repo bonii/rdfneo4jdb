@@ -10,10 +10,10 @@ To run the executable and see its command line options use:
 java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar
 
 To clean database, import and export use (you can use any combinations of commands here) :
-java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar --clean -af data/auth.txt --import -if data/dataset.nt --export -of data/dataset_res.nt
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar --clean -af data/auth.txt --import -if data/unit.nt --export -of data/unit_ex.nt
 
 To run queries on the database use (you cannot invoke import/export with the query command):
-java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar -af data/auth.txt --query -if data/queries.txt -of data/queries_out.txt
+java -jar target/RDFNeo4JDB-1.0.0-jar-with-dependencies.jar -af data/auth.txt --query -if data/queries.bgql -of data/queries_out.nt
 
 ** The above commands assume they are being run from the root directory of the project.
 ** Remember to change the auth file with the correct authentication information / provide appropriate authentication file.
